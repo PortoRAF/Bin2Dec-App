@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
-
-const MAX_BIN_LENGTH = 8;
+import Header from "./components/Header";
+import InputBox from "./components/InputBox";
+import Notification from "./components/Notification";
 
 function App() {
   const [binary, setBinary] = useState("");
@@ -26,34 +27,43 @@ function App() {
 
   const handleBinaryInput = ({ target }) => {
     const allowedDigits = ["", "0", "1"];
-    if (target.value.length <= MAX_BIN_LENGTH) {
-      if (allowedDigits.includes(target.value.slice(-1))) {
-        setBinary(target.value);
-        if (target.value !== "") {
-          calculateDecimal(target.value);
-        } else {
-          setDecimal("");
-        }
+    if (allowedDigits.includes(target.value.slice(-1))) {
+      setBinary(target.value);
+      if (target.value !== "") {
+        calculateDecimal(target.value);
       } else {
-        showMessage("Input digit must be 0 or 1");
+        setDecimal("");
       }
     } else {
-      showMessage(`Maximum input reached`);
+      showMessage("Input digit must be 0 or 1");
     }
   };
 
   return (
     <div className="App">
-      <div className="App-header">Bin2Dec</div>
+      <Header />
       <main>
-        {notification}
         <div>
-          <input type="text" value={binary} onChange={handleBinaryInput} />
+          <InputBox
+            label="binary"
+            value={binary}
+            onChange={handleBinaryInput}
+          />
         </div>
         <div>
-          <input type="text" value={decimal} onChange={() => {}} />
+          <InputBox label="decimal" value={decimal} onChange={() => {}} />
+        </div>
+        <div>
+          <Notification note={notification} />
         </div>
       </main>
+      <footer>
+        <div className="App-link">
+          <a href="https://github.com/PortoRAF/Bin2Dec-App">
+            https://github.com/PortoRAF/Bin2Dec-App
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
